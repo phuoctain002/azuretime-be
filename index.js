@@ -8,26 +8,26 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
 //#region ----SocketIO----
-var count = 0;
-require("dotenv").config();
+// var count = 0;
+// require("dotenv").config();
 
-// COUNTER ONLINE
-io.on("connection", function (socket) {
-  count++;
-  io.emit("userConnected", count);
-  socket.on("disconnect", function () {
-    count--;
-    io.emit("userConnected", count);
-  });
-});
+// // COUNTER ONLINE
+// io.on("connection", function (socket) {
+//   count++;
+//   io.emit("userConnected", count);
+//   socket.on("disconnect", function () {
+//     count--;
+//     io.emit("userConnected", count);
+//   });
+// });
 //#endregion
 
 app.use(cors());
 app.use(express.json());
 
 // Send Data: Client <=> Server
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false, limit: "10mb" }));
 
 // Khai báo module
 const brandRouter = require("./api/brand/brand.router");

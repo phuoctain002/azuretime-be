@@ -15,12 +15,22 @@ module.exports = {
     let productDetail = await product
       .getProDetail(idProduct)
       .catch((err) => res.status(500).json(err));
-    let arrImgs = await image
-      .getDetailImgs(idProduct)
-      .catch((err) => res.status(500).json(err));
+    // let arrImgs = await image
+    //   .getDetailImgs(idProduct)
+    //   .catch((err) => res.status(500).json(err));
     // return res.status(200).json({detail: productDetail[0], imgs: arrImgs});
-    productDetail[0].urlResized = arrImgs;
+    // productDetail[0].urlResized = arrImgs;
     return res.status(200).json(productDetail[0]);
   },
-  store: (req, res) => {},
+  store: (req, res) => {
+    // console.log("req", req);
+    var data = req.body;
+    product
+      .createProduct(data)
+      .then((insertedId) => {
+        // console.log("imgs", req.body.imgsSubmit);
+        return res.status(200).json(insertedId);
+      })
+      .catch((err) => res.status(500).json(err));
+  },
 };

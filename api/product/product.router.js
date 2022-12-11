@@ -3,6 +3,7 @@ const router = express.Router();
 
 const prosController = require("./product.controller");
 
+router.post("/", prosController.store);
 router.get("/products/:idCate", prosController.index);
 router.get("/detail/:idProduct", prosController.detail);
 
