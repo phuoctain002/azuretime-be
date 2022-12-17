@@ -10,7 +10,6 @@ const storageFull = multer.diskStorage({
     cb(null, "./images/products/");
   },
   filename: function (req, file, cb) {
-    // console.log("file2", file, req.params.time);
     cb(null, "full" + "_" + req.params.time + "_" + file.originalname);
   },
 });
@@ -19,7 +18,6 @@ const storageResized = multer.diskStorage({
     cb(null, "./images/products/");
   },
   filename: function (req, file, cb) {
-    console.log("file2", file, req);
     cb(null, req.params.time + "_" + file.originalname);
   },
 });
@@ -32,6 +30,7 @@ const destResized = multer({ storage: storageResized });
 // }
 
 router.get("/detail/:idProduct", imgsController.detail);
+router.get("/listName/:idProduct", imgsController.listName);
 router.post(
   "/upload-full/:time",
   destFull.array("files[]"),

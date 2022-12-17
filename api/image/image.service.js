@@ -4,7 +4,21 @@ module.exports = {
   getDetailImgs: async (idProduct) =>
     new Promise((resolve, reject) => {
       pool.query(
-        `SELECT i.idImg, i.name FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
+        // `SELECT i.idImg, i.name FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
+        `SELECT i.idImg as 'uid', i.name, i.isAvatar, i.idProduct FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
+        [idProduct],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    }),
+  getImgsName: async (idProduct) =>
+    new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT i.name FROM image i WHERE i.idProduct = ?`,
         [idProduct],
         (error, result) => {
           if (error) {
@@ -18,12 +32,7 @@ module.exports = {
     new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO image values(?, ?, ?,?)`,
-        [
-          null,
-          data.name,
-          data.isAvatar,
-          idProduct,
-        ],
+        [null, data.name, data.isAvatar, idProduct],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -33,18 +42,16 @@ module.exports = {
       );
     }),
   delete: async (name) =>
-  new Promise((resolve, reject) => {
-    pool.query(
-      `DELETE FROM image WHERE name = ?`,
-      [
-        name
-      ],
-      (error, result) => {
-        if (error) {
-          return reject(error);
+    new Promise((resolve, reject) => {
+      pool.query(
+        `DELETE FROM image WHERE name = ?`,
+        [name],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
         }
-        return resolve(result);
-      }
-    );
-  }),
+      );
+    }),
 };

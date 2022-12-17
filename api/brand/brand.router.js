@@ -9,8 +9,10 @@ const brandController = require("./brand.controller");
 // router.get('/get-products-by-idbooking-with-bill/:id', productController.getDataByIdBookingWithBill);
 
 router.get("/", brandController.index);
+router.post("/", brandController.store);
+router.put("/", brandController.update);
+router.delete("/:idBrand", brandController.destroy);
 // router.get('/:id', productController.show);
-// router.post('/', productController.store);
 // router.put('/:id', productController.update);
 // router.delete('/:id', productController.destroy);
 

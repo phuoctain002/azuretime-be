@@ -16,5 +16,30 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  store: (req, res) => {},
+  store: (req, res) => {
+    brand
+      .addBrand(req.body)
+      .then((result) => {
+        return res.status(200).json(result);
+      })
+      .catch((err) => res.status(500).json(err));
+  },
+  update: (req, res) => {
+    brand
+      .updateBrand(req.body)
+      .then((result) => {
+        return res.status(200).json(result);
+      })
+      .catch((err) => res.status(500).json(err));
+  },
+  destroy: async (req, res) => {
+    const { idBrand } = req.params;
+
+    brand
+      .delete(idBrand)
+      .then((result) => res.status(200).json("Đã xóa"))
+      .catch((err) => {
+        return console.log("ERR", err);
+      });
+  },
 };

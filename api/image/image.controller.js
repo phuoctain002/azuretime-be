@@ -16,6 +16,12 @@ module.exports = {
       .then((imgs) => res.status(200).json(imgs))
       .catch((err) => res.status(500).json(err));
   },
+  listName: (req, res) => {
+    image
+      .getImgsName(req.params.idProduct)
+      .then((imgs) => res.status(200).json(imgs))
+      .catch((err) => res.status(500).json(err));
+  },
   upload: (req, res) => {
     return res.status(200).json("thanh cong");
   },
