@@ -1,4 +1,4 @@
-const { createPool } = require("mysql");
+const { createPool} = require("mysql");
 
 const pool = createPool({
   // Deploy & dev
@@ -10,5 +10,7 @@ const pool = createPool({
 
   connectionLimit: 100,
 });
+
+
 
 module.exports = pool;

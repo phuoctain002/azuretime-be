@@ -5,7 +5,7 @@ module.exports = {
     new Promise((resolve, reject) => {
       pool.query(
         // `SELECT i.idImg, i.name FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
-        `SELECT i.idImg as 'uid', i.name, i.isAvatar, i.idProduct FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
+        `SELECT i.idImg as 'key', i.name, i.isAvatar, i.idProduct FROM image i WHERE i.idProduct = ? order by i.isAvatar DESC`,
         [idProduct],
         (error, result) => {
           if (error) {
@@ -32,7 +32,7 @@ module.exports = {
     new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO image values(?, ?, ?,?)`,
-        [null, data.name, data.isAvatar, idProduct],
+        [data.idImg, data.name, data.isAvatar, idProduct],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -53,5 +53,43 @@ module.exports = {
           return resolve(result);
         }
       );
+    }),
+  updateAvaImg: async (data) =>
+    new Promise((resolve, reject) => {
+      if (data.case === 2) {
+        //trường họp 2: đổi ava hình cũ
+        pool.query(
+          `UPDATE image SET isAvatar=0 WHERE idImg=?`,
+          [data.oldId],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            return resolve(result);
+          }
+        );
+        pool.query(
+          `UPDATE image SET isAvatar=1 WHERE idImg=?`,
+          [data.newId],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            return resolve(result);
+          }
+        );
+      } else if (data.case === 3) {
+        // trường họp 3: đổi ava hình mới
+        pool.query(
+          `UPDATE image SET isAvatar=0 WHERE idImg=?`,
+          [data.oldId],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            return resolve(result);
+          }
+        );
+      }
     }),
 };

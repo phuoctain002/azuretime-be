@@ -4,7 +4,7 @@ module.exports = {
   // hiện trên trang user
   getPros: (idCate, cb) => {
     pool.query(
-      `SELECT p.*, i.idImg, i.name FROM image i , product p WHERE p.idProduct = i.idProduct and i.isAvatar = 1 and p.idCategory = ?`,
+      `SELECT p.*, i.idImg, i.name FROM image i , product p WHERE p.idProduct = i.idProduct and i.isAvatar = 1 and p.idCategory = ? order by p.idProduct`,
       [idCate],
       (error, result) => {
         if (error) {
@@ -71,6 +71,35 @@ module.exports = {
             return reject(error);
           }
           return resolve(result);
+        }
+      );
+    }),
+  updateProduct: async (data) =>
+    new Promise((resolve, reject) => {
+      pool.query(
+        `UPDATE product SET code=?, nameProduct=?,
+        descriptionVi=?,
+        descriptionEn=?,
+        price=?,
+        urlVideo=?,
+        gender=?,
+        idCategory=? WHERE idProduct=?`,
+        [
+          data.code,
+          data.nameProduct,
+          data.descriptionVi,
+          data.descriptionEn,
+          data.price,
+          data.urlVideo,
+          data.gender,
+          data.idCategory,
+          data.idProduct,
+        ],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result.insertId);
         }
       );
     }),

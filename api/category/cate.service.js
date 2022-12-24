@@ -13,19 +13,17 @@ module.exports = {
       }
     );
   },
-  addCate: async (cate) => {
-    new Promise((resolve, reject) => {
-      pool.query(
-        `INSERT INTO category VALUES(?,?,?,?)`,
-        [null, cate.nameCategory, 0, cate.idBrand],
-        (error, result) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(result);
+  addCate: (cate, cb) => {
+    pool.query(
+      `INSERT INTO category VALUES(?,?,?,?)`,
+      [null, cate.nameCategory, 0, cate.idBrand],
+      (error, result) => {
+        if (error) {
+          cb(error);
         }
-      );
-    });
+        cb(null, result);
+      }
+    );
   },
   updateCate: async (cate) =>
     new Promise((resolve, reject) => {

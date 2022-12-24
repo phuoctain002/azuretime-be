@@ -8,12 +8,17 @@ module.exports = {
     const account = await auth
       .login(username)
       .catch((err) => res.status(400).json(err));
-
-    const isSuccess = await bcrypt.compareSync(password, account.password);
-
-    return res
-      .status(isSuccess ? 200 : 400)
-      .json(isSuccess ? "Đăng nhập thành công" : "Đăng nhập thất bại");
+    bcrypt.compare(password, account[0].password, function (err, result) {
+      const response = { result, account: account[0] };
+      console.log("result", result);
+      if (err) {
+        console.log("Đăng nhập thất bại");
+        return res.status(400).json(err);
+      } else {
+        console.log("Đăng nhập thành công");
+        return res.status(200).json(response);
+      }
+    });
   },
   createUserAdmin: async (req, res) => {
     let password = await bcrypt.hashSync(req.body.password, saltRounds);

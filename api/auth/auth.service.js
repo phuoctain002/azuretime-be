@@ -10,7 +10,7 @@ module.exports = {
           if (error) {
             reject(error);
           }
-          resolve(result[0]);
+          resolve(result);
         }
       );
     }),

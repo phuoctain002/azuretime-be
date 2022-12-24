@@ -4,29 +4,23 @@ module.exports = {
   getBrands: async () =>
     new Promise((resolve, reject) => {
       pool.query(`SELECT * FROM brand`, [], (error, result) => {
-        // if (error) {
-        //   return cb(error);
-        // }
-        // return cb(null, result);
         if (error) {
           reject(error);
         }
         resolve(result);
       });
     }),
-  addBrand: async (brand) => {
-    new Promise((resolve, reject) => {
-      pool.query(
-        `INSERT INTO brand VALUES(?,?,?)`,
-        [null, brand.nameBrand, brand.urlBrand ? brand.urlBrand : ""],
-        (error, result) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(result);
+  addBrand: (brand, cb) => {
+    pool.query(
+      `INSERT INTO brand VALUES(?,?,?)`,
+      [null, brand.nameBrand, brand.urlBrand ? brand.urlBrand : ""],
+      (error, result) => {
+        if (error) {
+          cb(error);
         }
-      );
-    });
+        cb(null, result);
+      }
+    );
   },
   updateBrand: async (brand) =>
     new Promise((resolve, reject) => {

@@ -42,5 +42,7 @@ router.post(
   imgsController.upload
 );
 router.post("/", imgsController.store);
-router.delete("/", imgsController.destroy);
+router.put("/", imgsController.update);
+router.delete("/:name", imgsController.destroyImg);
+router.delete("/", imgsController.destroyImgs);
 module.exports = router;

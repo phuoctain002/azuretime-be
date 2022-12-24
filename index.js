@@ -38,8 +38,8 @@ const imageRouter = require("./api/image/image.router");
 app.use("/api/image", imageRouter);
 const prosRouter = require("./api/product/product.router");
 app.use("/api/pros", prosRouter);
-const authRouter = require('./api/auth/auth.router');
-app.use('/api/auth', authRouter);
+const authRouter = require("./api/auth/auth.router");
+app.use("/api/auth", authRouter);
 app.use("/images", express.static("images"));
 
 app.listen(process.env.PORT || 3003, () => {

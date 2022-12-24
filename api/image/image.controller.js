@@ -42,7 +42,7 @@ module.exports = {
     );
     return res.status(200).json("thanh cong");
   },
-  destroy: (req, res) => {
+  destroyImgs: (req, res) => {
     console.log(req.body);
     Promise.all(
       req.body.fileImgs.map(
@@ -66,5 +66,24 @@ module.exports = {
     )
       .then((result) => res.status(200).json("xoa thanh cong"))
       .catch((err) => res.status(400).json(err));
+  },
+  destroyImg: async (req, res) => {
+    const name = await req.params.name;
+    fs.unlinkSync(`./images/products/${name}`);
+    fs.unlinkSync(`./images/products/full_${name}`);
+    image
+      .delete(name)
+      .then()
+      .catch((err) => res.status(500).json(err));
+    return res.status(200).json("xoa thanh cong");
+  },
+  update: (req, res) => {
+    var data = req.body;
+    image
+      .updateAvaImg(data)
+      .then((insertedId) => {
+        return res.status(200).json(insertedId);
+      })
+      .catch((err) => res.status(500).json(err));
   },
 };

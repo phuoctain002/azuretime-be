@@ -75,4 +75,14 @@ module.exports = {
         return console.log("ERR", err);
       });
   },
+  update: (req, res) => {
+    // console.log("req", req);
+    var data = req.body;
+    product
+      .updateProduct(data)
+      .then((insertedId) => {
+        return res.status(200).json(insertedId);
+      })
+      .catch((err) => res.status(500).json(err));
+  },
 };

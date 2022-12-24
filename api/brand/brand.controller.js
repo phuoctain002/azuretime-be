@@ -17,12 +17,13 @@ module.exports = {
   },
 
   store: (req, res) => {
-    brand
-      .addBrand(req.body)
-      .then((result) => {
-        return res.status(200).json(result);
-      })
-      .catch((err) => res.status(500).json(err));
+    brand.addBrand(req.body, (err, result) => {
+      if (err) {
+        return res.status(500).json(err);
+      } else {
+        return res.status(200).json(result.insertId);
+      }
+    });
   },
   update: (req, res) => {
     brand
