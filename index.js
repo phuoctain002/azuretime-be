@@ -5,11 +5,13 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const dotenv = require("dotenv");
+// const morgan = require("morgan");
+// const io = require("socket.io")(http);
 
 //#region ----SocketIO----
 // var count = 0;
-// require("dotenv").config();
+dotenv.config();
 
 // // COUNTER ONLINE
 // io.on("connection", function (socket) {
@@ -21,7 +23,7 @@ const io = require("socket.io")(http);
 //   });
 // });
 //#endregion
-
+// app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
