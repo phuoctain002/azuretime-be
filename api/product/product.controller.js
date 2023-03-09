@@ -2,6 +2,7 @@ var product = require("./product.service");
 var image = require("../image/image.service");
 var fs = require("fs");
 module.exports = {
+  
   index: (req, res) => {
     product.getPros(req.params.idCate, (err, result) => {
       if (err) {
@@ -23,11 +24,6 @@ module.exports = {
     let productDetail = await product
       .getProDetail(idProduct)
       .catch((err) => res.status(500).json(err));
-    // let arrImgs = await image
-    //   .getDetailImgs(idProduct)
-    //   .catch((err) => res.status(500).json(err));
-    // return res.status(200).json({detail: productDetail[0], imgs: arrImgs});
-    // productDetail[0].urlResized = arrImgs;
     return res.status(200).json(productDetail[0]);
   },
   store: (req, res) => {
@@ -84,5 +80,13 @@ module.exports = {
         return res.status(200).json(insertedId);
       })
       .catch((err) => res.status(500).json(err));
+  },
+  search: (req, res) => {
+    product.search(req.params.searchInput, (err, result) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      return res.status(200).json(result);
+    });
   },
 };

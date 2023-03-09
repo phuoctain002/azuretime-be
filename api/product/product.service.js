@@ -2,6 +2,7 @@ const pool = require("../../configMySql");
 
 module.exports = {
   // hiện trên trang user
+
   getPros: (idCate, cb) => {
     pool.query(
       `SELECT p.*, i.idImg, i.name FROM image i , product p WHERE p.idProduct = i.idProduct and i.isAvatar = 1 and p.idCategory = ? order by p.idProduct`,
@@ -41,17 +42,18 @@ module.exports = {
   createProduct: async (data) =>
     new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO product values(?, ?, ?,?,?,?,?,?,?)`,
+        `INSERT INTO product values(?, ?, ?,?,?,?,?,?,?,?)`,
         [
           null,
           data.code,
           data.nameProduct,
+          data.price,
           data.descriptionVi,
           data.descriptionEn,
-          data.price,
           data.urlVideo,
           data.gender,
           data.idCategory,
+          data.idMenu,
         ],
         (error, result) => {
           if (error) {
@@ -103,4 +105,23 @@ module.exports = {
         }
       );
     }),
+  search: (searchInput, cb) => {
+    pool.query(
+      "SELECT * FROM product p, image i WHERE p.idProduct = i.idProduct and i.isAvatar = 1 and (p.code LIKE '%" +
+        searchInput +
+        "%' or p.descriptionVi LIKE '%" +
+        searchInput +
+        "%' or p.descriptionEn LIKE '%" +
+        searchInput +
+        "%' or p.nameProduct LIKE '%" +
+        searchInput +
+        "%')",
+      (error, result) => {
+        if (error) {
+          return cb(error);
+        }
+        return cb(null, result);
+      }
+    );
+  },
 };

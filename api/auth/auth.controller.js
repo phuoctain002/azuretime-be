@@ -15,6 +15,7 @@ module.exports = {
     if (account.length === 0)
       return res.status(400).send("Tên người dùng không chính xác.");
     const isPasswordValid = bcrypt.compareSync(password, account[0].password);
+    console.log("pass", isPasswordValid);
     if (!isPasswordValid) {
       return res.status(401).send("Mật khẩu không chính xác.");
     }
